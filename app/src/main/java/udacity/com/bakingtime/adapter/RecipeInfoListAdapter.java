@@ -52,22 +52,29 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
     public void onBindViewHolder(RecipeInfoListViewHolder holder, int position) {
         if (position == 0) {
             holder.recipeInfoListItemName.setText(CommonApplicationFields.INGREDIENTS_NAME);
-            holder.recipeInfoListItemName.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-            holder.recipeInfoListItemNumber.setText(String.valueOf(mRecipe.getIngredientList().size()));
+            holder.recipeInfoListItemName.setTextColor(
+                    mContext.getResources().getColor(R.color.colorPrimary)
+            );
+            holder.recipeInfoListItemNumber.setText(
+                    String.valueOf(mRecipe.getIngredientList().size())
+            );
             holder.recipeInfoListItemIcon.setImageResource(R.drawable.ic_icons8_ingredients_96);
             holder.recipeInfoListItemQuantityLinearLayout.setBackground(
                     mContext.getResources()
-                            .getDrawable(R.drawable.recipe_info_list_ingredients_quantity_background));
+                            .getDrawable(R.drawable.recipe_info_list_ingredients_quantity_background)
+            );
         } else {
-            List<Step> stepList = mRecipe.getStepList();
-            Step step = stepList.get(position - 1);
+            Step step = mRecipe.getStepList().get(position - 1);
             holder.recipeInfoListItemName.setText(step.getShortDescription());
-            holder.recipeInfoListItemName.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-            holder.recipeInfoListItemNumber.setText(String.valueOf(step.getId()) + ".");
+            holder.recipeInfoListItemName.setTextColor(
+                    mContext.getResources().getColor(R.color.colorAccent)
+            );
+            holder.recipeInfoListItemNumber.setText(String.valueOf(step.getId()) + '.');
             holder.recipeInfoListItemIcon.setImageResource(R.drawable.ic_icons8_footsteps_96);
             holder.recipeInfoListItemQuantityLinearLayout.setBackground(
                     mContext.getResources()
-                            .getDrawable(R.drawable.recipe_info_list_steps_quantity_background));
+                            .getDrawable(R.drawable.recipe_info_list_steps_quantity_background)
+            );
         }
     }
 

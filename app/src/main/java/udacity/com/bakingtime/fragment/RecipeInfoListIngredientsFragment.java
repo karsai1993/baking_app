@@ -27,13 +27,20 @@ public class RecipeInfoListIngredientsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recipe_info_list_ingredients, container, false);
-        List<Ingredient> ingredients = getArguments().getParcelableArrayList(CommonApplicationFields.INGREDIENT_LIST_EXTRA_DATA);
-        RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.rv_recipe_info_list_ingredients);
+        View rootView = inflater.inflate(
+                R.layout.fragment_recipe_info_list_ingredients,
+                container,
+                false);
+        List<Ingredient> ingredients = getArguments().getParcelableArrayList(
+                CommonApplicationFields.INGREDIENT_LIST_EXTRA_DATA
+        );
+        RecyclerView ingredientsRecyclerView
+                = rootView.findViewById(R.id.rv_recipe_info_list_ingredients);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         ingredientsRecyclerView.setLayoutManager(layoutManager);
-        ingredientsRecyclerView.hasFixedSize();
-        RecipeInfoListItemIngredientsAdapter recipeInfoListItemIngredientsAdapter = new RecipeInfoListItemIngredientsAdapter(getContext(), ingredients);
+        ingredientsRecyclerView.setHasFixedSize(true);
+        RecipeInfoListItemIngredientsAdapter recipeInfoListItemIngredientsAdapter
+                = new RecipeInfoListItemIngredientsAdapter(getContext(), ingredients);
         ingredientsRecyclerView.setAdapter(recipeInfoListItemIngredientsAdapter);
         return rootView;
     }

@@ -32,7 +32,6 @@
 
 
     <TextView
-        android:text="dfg"
         android:id="@+id/tv_recipe_info_list_item_name"
         style="@style/AppTheme"
         android:layout_weight="1"

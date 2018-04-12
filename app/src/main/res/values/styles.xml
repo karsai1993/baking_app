@@ -11,7 +11,6 @@
     <style name="recipe_list_common_linear_layout" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <!--item name="android:layout_weight">1</item-->
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/recipe_list_quantity_background</item>
@@ -43,4 +42,44 @@
     <style name="recipe_info_list_ingredients_header_text_view" parent="recipe_info_list_ingredients_text_view">
         <item name="android:textColor">@color/colorAccent</item>
     </style>
+
+    <style name="image_button" parent="AppTheme">
+        <item name="android:layout_width">@dimen/image_button_size</item>
+        <item name="android:layout_height">@dimen/image_button_size</item>
+        <item name="android:onClick">@string/image_button_onclick_method_name</item>
+    </style>
+
+    <style name="image_button_info_list" parent="image_button">
+        <item name="android:background">@drawable/recipe_info_list_nav_btn_background</item>
+    </style>
+
+    <style name="image_button_info_list_detail" parent="image_button">
+        <item name="android:background">@drawable/recipe_info_list_detail_nav_btn_background</item>
+    </style>
+
+    <style name="image_button_prev_info_list" parent="image_button_info_list">
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:src">@drawable/ic_icons8_prev_96</item>
+    </style>
+
+
+    <style name="image_button_prev_info_list_detail" parent="image_button_info_list_detail">
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:src">@drawable/ic_icons8_prev_96</item>
+    </style>
+
+    <style name="image_button_next_info_list" parent="image_button_info_list">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@drawable/ic_icons8_next_96</item>
+    </style>
+
+    <style name="image_button_next_info_list_detail" parent="image_button_info_list_detail">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@drawable/ic_icons8_next_96</item>
+    </style>
+
 </resources>

@@ -1,5 +1,6 @@
 package udacity.com.bakingtime.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(
+                this,
+                getResources().getInteger(R.integer.span_count));
         mRecipeRecyclerView.setLayoutManager(layoutManager);
         mRecipeRecyclerView.setHasFixedSize(true);
 
@@ -101,9 +104,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onItemClick(int position) {
-        //Recipe selectedRecipe = mRecipeList.get(position);
         Intent startDetailActivity = new Intent(MainActivity.this, DetailActivity.class);
-        startDetailActivity.putParcelableArrayListExtra(CommonApplicationFields.RECIPE_LIST_EXTRA_DATA, (ArrayList<? extends Parcelable>) mRecipeList);
+        startDetailActivity.putParcelableArrayListExtra(
+                CommonApplicationFields.RECIPE_LIST_EXTRA_DATA,
+                (ArrayList<Recipe>) mRecipeList
+        );
         startDetailActivity.putExtra(CommonApplicationFields.RECIPE_POSITION_EXTRA_DATA, position);
         startActivity(startDetailActivity);
     }

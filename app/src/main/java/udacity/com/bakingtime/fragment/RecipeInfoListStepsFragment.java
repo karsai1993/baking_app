@@ -55,7 +55,11 @@ public class RecipeInfoListStepsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recipe_info_list_steps, container, false);
+        View rootView = inflater.inflate(
+                R.layout.fragment_recipe_info_list_steps,
+                container,
+                false
+        );
 
         Bundle receivedStepsBundle = getArguments();
         mStep = receivedStepsBundle.getParcelable(CommonApplicationFields.STEP_EXTRA_DATA);

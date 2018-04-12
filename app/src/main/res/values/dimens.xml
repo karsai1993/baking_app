@@ -7,7 +7,7 @@
     <dimen name="recipe_list_side_dist">8dp</dimen>
     <dimen name="recipe_list_quantity_background_padding">3dp</dimen>
     <dimen name="recipe_list_item_name_size">20sp</dimen>
-    <dimen name="span_count">1</dimen>
     <dimen name="zero_dp">0dp</dimen>
     <dimen name="step_detail_inner_dist">8dp</dimen>
+    <dimen name="image_button_size">50dp</dimen>
 </resources>

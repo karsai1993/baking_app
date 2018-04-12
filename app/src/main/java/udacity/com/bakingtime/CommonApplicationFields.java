@@ -1,6 +1,8 @@
 package udacity.com.bakingtime;
 
 import android.os.Parcelable;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.List;
 
@@ -19,4 +21,21 @@ public class CommonApplicationFields {
     public static final String INGREDIENTS_NAME = "Ingredients";
     public static final String STEP_EXTRA_DATA = "step_extra_data";
     public static final String POSITION_STATE_SAVE_KEY = "pos_save_key";
+
+    public static void navigationButtonHandler(
+            int position,
+            int maxNum,
+            ImageButton prevBtn,
+            ImageButton nextBtn) {
+        if (position == 0) {
+            prevBtn.setVisibility(View.GONE);
+            nextBtn.setVisibility(View.VISIBLE);
+        } else if (position == maxNum - 1) {
+            prevBtn.setVisibility(View.VISIBLE);
+            nextBtn.setVisibility(View.GONE);
+        } else {
+            prevBtn.setVisibility(View.VISIBLE);
+            nextBtn.setVisibility(View.VISIBLE);
+        }
+    }
 }

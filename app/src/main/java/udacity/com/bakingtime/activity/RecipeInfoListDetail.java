@@ -1,5 +1,6 @@
 package udacity.com.bakingtime.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,9 +34,6 @@ public class RecipeInfoListDetail extends AppCompatActivity {
     @BindView(R.id.ib_detail_nav_btn_next)
     ImageButton nextImageBtn;
 
-    private Bundle mData;
-    private Fragment mFragment;
-    private FragmentManager mFragmentManager;
     private List<Ingredient> mIngredientList;
     private List<Step> mStepList;
     private int mPosition;
@@ -47,53 +45,57 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_info_list_detail);
         ButterKnife.bind(this);
 
-        mData = getIntent().getExtras();
+        Bundle receivedBundle = getIntent().getExtras();
 
-        Recipe recipe = mData.getParcelable(CommonApplicationFields.RECIPE_EXTRA_DATA);
+        Recipe recipe = receivedBundle.getParcelable(CommonApplicationFields.RECIPE_EXTRA_DATA);
         mIngredientList = recipe.getIngredientList();
         mStepList = recipe.getStepList();
 
         mActionBar = getSupportActionBar();
-        mFragmentManager = getSupportFragmentManager();
 
-        mPosition = mData.getInt(CommonApplicationFields.RECIPE_INFO_LIST_POSITION_EXTRA_DATA);
+        mPosition = receivedBundle.getInt(
+                CommonApplicationFields.RECIPE_INFO_LIST_POSITION_EXTRA_DATA
+        );
         displayFragment();
     }
 
     private void displayFragment() {
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (mPosition) {
             case 0:
                 mActionBar.setTitle(CommonApplicationFields.INGREDIENTS_NAME);
-                mFragment = new RecipeInfoListIngredientsFragment();
+                fragment = new RecipeInfoListIngredientsFragment();
                 Bundle ingredientsBundle = new Bundle();
-                ingredientsBundle.putParcelableArrayList(CommonApplicationFields.INGREDIENT_LIST_EXTRA_DATA, (ArrayList<Ingredient>) mIngredientList);
-                mFragment.setArguments(ingredientsBundle);
-                mFragmentManager.beginTransaction().replace(R.id.recipe_info_list_detail_fragment, mFragment).commit();
+                ingredientsBundle.putParcelableArrayList(
+                        CommonApplicationFields.INGREDIENT_LIST_EXTRA_DATA,
+                        (ArrayList<Ingredient>) mIngredientList
+                );
+                fragment.setArguments(ingredientsBundle);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.recipe_info_list_detail_fragment, fragment)
+                        .commit();
                 break;
             default:
                 int stepListPosition = mPosition - 1;
                 mActionBar.setTitle(mStepList.get(stepListPosition).getShortDescription());
-                mFragment = new RecipeInfoListStepsFragment();
+                fragment = new RecipeInfoListStepsFragment();
                 Bundle stepsBundle = new Bundle();
-                stepsBundle.putParcelable(CommonApplicationFields.STEP_EXTRA_DATA, mStepList.get(stepListPosition));
-                mFragment.setArguments(stepsBundle);
-                mFragmentManager.beginTransaction().replace(R.id.recipe_info_list_detail_fragment, mFragment).commit();
+                stepsBundle.putParcelable(
+                        CommonApplicationFields.STEP_EXTRA_DATA,
+                        mStepList.get(stepListPosition)
+                );
+                fragment.setArguments(stepsBundle);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.recipe_info_list_detail_fragment, fragment)
+                        .commit();
                 break;
         }
-        buttonHandler(mStepList.size() + 1);
-    }
-
-    private void buttonHandler(int numOfFragments) {
-        if (mPosition == 0) {
-            prevImageBtn.setVisibility(View.GONE);
-            nextImageBtn.setVisibility(View.VISIBLE);
-        } else if (mPosition == numOfFragments - 1) {
-            prevImageBtn.setVisibility(View.VISIBLE);
-            nextImageBtn.setVisibility(View.GONE);
-        } else {
-            prevImageBtn.setVisibility(View.VISIBLE);
-            nextImageBtn.setVisibility(View.VISIBLE);
-        }
+        CommonApplicationFields.navigationButtonHandler(
+                mPosition,
+                mStepList.size() + 1,
+                prevImageBtn,
+                nextImageBtn);
     }
 
     public void onNavigationButtonClicked(View view) {

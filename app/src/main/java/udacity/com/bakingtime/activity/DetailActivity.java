@@ -28,9 +28,7 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.ib_info_list_nav_btn_next)
     ImageButton nextBtn;
 
-    private Bundle mData;
     private List<Recipe> mRecipeList;
-    private Fragment mRecipeInfoListFragment;
     private int mPosition;
 
     @Override
@@ -39,9 +37,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        mData = getIntent().getExtras();
-        mRecipeList = mData.getParcelableArrayList(CommonApplicationFields.RECIPE_LIST_EXTRA_DATA);
-        mPosition = mData.getInt(CommonApplicationFields.RECIPE_POSITION_EXTRA_DATA);
+        Bundle receivedBundle = getIntent().getExtras();
+        mRecipeList = receivedBundle.getParcelableArrayList(
+                CommonApplicationFields.RECIPE_LIST_EXTRA_DATA
+        );
+        mPosition = receivedBundle.getInt(CommonApplicationFields.RECIPE_POSITION_EXTRA_DATA);
 
         displayDetails();
     }
@@ -49,29 +49,21 @@ public class DetailActivity extends AppCompatActivity {
     private void displayDetails() {
         getSupportActionBar().setTitle(mRecipeList.get(mPosition).getName());
 
-        mRecipeInfoListFragment = new RecipeInfoListFragment();
+        Fragment fragment = new RecipeInfoListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(CommonApplicationFields.RECIPE_EXTRA_DATA, mRecipeList.get(mPosition));
-        mRecipeInfoListFragment.setArguments(bundle);
+        fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.recipe_info_fragment, mRecipeInfoListFragment)
+                .replace(R.id.recipe_info_fragment, fragment)
                 .commit();
 
-        buttonHandler(mRecipeList.size());
-    }
-
-    private void buttonHandler(int numOfRecipes) {
-        if (mPosition == 0) {
-            prevBtn.setVisibility(View.GONE);
-            nextBtn.setVisibility(View.VISIBLE);
-        } else if (mPosition == numOfRecipes - 1) {
-            prevBtn.setVisibility(View.VISIBLE);
-            nextBtn.setVisibility(View.GONE);
-        } else {
-            prevBtn.setVisibility(View.VISIBLE);
-            nextBtn.setVisibility(View.VISIBLE);
-        }
+        CommonApplicationFields.navigationButtonHandler(
+                mPosition,
+                mRecipeList.size(),
+                prevBtn,
+                nextBtn
+        );
     }
 
     public void onNavigationButtonClicked(View view) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +29,14 @@ public class RecipeInfoListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recipe_info_list, container, false);
+        View rootView = inflater.inflate(
+                R.layout.fragment_recipe_info_list,
+                container,
+                false);
         RecyclerView recipeInfoListRecyclerView = rootView.findViewById(R.id.rv_recipe_info);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),  1);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recipeInfoListRecyclerView.setLayoutManager(layoutManager);
-        recipeInfoListRecyclerView.hasFixedSize();
+        recipeInfoListRecyclerView.setHasFixedSize(true);
         final Recipe recipe = getArguments().getParcelable(CommonApplicationFields.RECIPE_EXTRA_DATA);
         OnClickListener onClickListener = new OnClickListener() {
             @Override
@@ -40,12 +44,14 @@ public class RecipeInfoListFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(CommonApplicationFields.RECIPE_EXTRA_DATA, recipe);
                 bundle.putInt(CommonApplicationFields.RECIPE_INFO_LIST_POSITION_EXTRA_DATA, position);
-                Intent startRecipeInfoListDetailActivity = new Intent(getContext(), RecipeInfoListDetail.class);
+                Intent startRecipeInfoListDetailActivity
+                        = new Intent(getContext(), RecipeInfoListDetail.class);
                 startRecipeInfoListDetailActivity.putExtras(bundle);
                 startActivity(startRecipeInfoListDetailActivity);
             }
         };
-        RecipeInfoListAdapter recipeInfoListAdapter = new RecipeInfoListAdapter(getContext(), recipe, onClickListener);
+        RecipeInfoListAdapter recipeInfoListAdapter
+                = new RecipeInfoListAdapter(getContext(), recipe, onClickListener);
         recipeInfoListRecyclerView.setAdapter(recipeInfoListAdapter);
         return rootView;
     }

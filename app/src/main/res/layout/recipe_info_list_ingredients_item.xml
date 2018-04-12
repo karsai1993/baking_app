@@ -8,23 +8,19 @@
     <TextView
         android:id="@+id/tv_recipe_info_list_ingredients_item_sequence"
         style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="0.4"
-        android:text="12"/>
+        android:layout_weight="0.4" />
 
     <TextView
         android:id="@+id/tv_recipe_info_list_ingredients_item_name"
         style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="3"
-        android:text="asdfasagwwggq43tgq34tgq34tgqt3q4"/>
+        android:layout_weight="3" />
     <TextView
         android:id="@+id/tv_recipe_info_list_ingredients_item_quantity"
         style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="1"
-        android:text="asdfasgasgqeg"/>
+        android:layout_weight="1" />
     <TextView
         android:id="@+id/tv_recipe_info_list_ingredients_item_measure"
         style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="1"
-        android:text="asgsa"/>
+        android:layout_weight="1" />
 
 </LinearLayout>

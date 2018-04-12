@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import udacity.com.bakingtime.CommonApplicationFields;
 import udacity.com.bakingtime.OnClickListener;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.model.Recipe;
@@ -55,7 +54,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 String.valueOf(currRecipe.getIngredientList().size())
         );
         holder.recipeStepNum.setText(
-                String.valueOf(getMaxStepCount(currRecipe.getStepList()))
+                String.valueOf(getMaxStepNumber(currRecipe.getStepList()))
         );
     }
 
@@ -64,7 +63,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return mRecipeList.size();
     }
 
-    private int getMaxStepCount(List<Step> stepList) {
+    private int getMaxStepNumber(List<Step> stepList) {
         return stepList.get(stepList.size() - 1).getId();
     }
 

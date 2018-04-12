@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Baking Time</string>
+    
+    <string name="main_activity_fetch_error">Data cannot be fetched!\n
+                                             Please, click Refresh in menu!</string>
+    <string name="main_activity_network_error">Network seems unavailable!\n
+                                               Please, check internet connection!</string>
+
+    <string name="action_refresh">Refresh</string>
+    <string name="ingredient_field_name">Name</string>
+    <string name="ingredient_field_quantity">Quantity</string>
+    <string name="ingredient_field_measure">Measure</string>
+</resources>

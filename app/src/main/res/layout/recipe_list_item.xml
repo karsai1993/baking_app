@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/recipe_list_side_dist"
+    android:orientation="vertical"
+    android:background="@drawable/recipe_list_background" >
+
+    <TextView
+        android:id="@+id/tv_recipe_name"
+        style="@style/AppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/recipe_list_item_name_size"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/recipe_item_name_top_bottom_dist" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/recipe_item_name_top_bottom_dist">
+
+        <LinearLayout
+            style="@style/recipe_list_common_linear_layout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="@dimen/recipe_list_side_dist"
+            android:layout_marginLeft="@dimen/recipe_list_side_dist">
+
+            <ImageView
+                style="@style/recipe_list_common_image_view"
+                android:src="@drawable/ic_icons8_ingredients_96"/>
+            <TextView
+                android:id="@+id/tv_recipe_ingredient_number"
+                style="@style/recipe_list_common_text_view" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/recipe_list_common_linear_layout"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                style="@style/recipe_list_common_image_view"
+                android:src="@drawable/ic_icons8_footsteps_96"/>
+            <TextView
+                android:id="@+id/tv_recipe_step_number"
+                style="@style/recipe_list_common_text_view" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/recipe_list_common_linear_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/recipe_list_side_dist"
+            android:layout_marginRight="@dimen/recipe_list_side_dist">
+
+            <ImageView
+                style="@style/recipe_list_common_image_view"
+                android:src="@drawable/ic_icons8_people_96"/>
+            <TextView
+                android:id="@+id/tv_recipe_serving_number"
+                style="@style/recipe_list_common_text_view" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

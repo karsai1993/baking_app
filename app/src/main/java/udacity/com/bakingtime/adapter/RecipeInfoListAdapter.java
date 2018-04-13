@@ -7,13 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
-import udacity.com.bakingtime.CommonApplicationFields;
+import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.OnClickListener;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.model.Recipe;
@@ -25,14 +22,21 @@ import udacity.com.bakingtime.model.Step;
 
 public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAdapter.RecipeInfoListViewHolder>{
 
-    private Context mContext;
-    private Recipe mRecipe;
-    private OnClickListener mOnClickListener;
+    private static Context mContext;
+    private static Recipe mRecipe;
+    private static OnClickListener mOnClickListener;
+    private boolean mIsClicked;
+    private int mClickedPosition;
 
     public RecipeInfoListAdapter(Context context, Recipe recipe, OnClickListener onClickListener) {
         this.mContext = context;
         this.mRecipe = recipe;
         this.mOnClickListener = onClickListener;
+    }
+
+    public RecipeInfoListAdapter(boolean isClicked, int clickedPosition) {
+        this.mIsClicked = isClicked;
+        this.mClickedPosition = clickedPosition;
     }
 
     @Override
@@ -51,29 +55,30 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
     @Override
     public void onBindViewHolder(RecipeInfoListViewHolder holder, int position) {
         if (position == 0) {
-            holder.recipeInfoListItemName.setText(CommonApplicationFields.INGREDIENTS_NAME);
-            holder.recipeInfoListItemName.setTextColor(
-                    mContext.getResources().getColor(R.color.colorPrimary)
-            );
-            holder.recipeInfoListItemNumber.setText(
-                    String.valueOf(mRecipe.getIngredientList().size())
-            );
-            holder.recipeInfoListItemIcon.setImageResource(R.drawable.ic_icons8_ingredients_96);
-            holder.recipeInfoListItemQuantityLinearLayout.setBackground(
-                    mContext.getResources()
-                            .getDrawable(R.drawable.recipe_info_list_ingredients_quantity_background)
-            );
+            holder.recipeInfoListItemName.setText(ApplicationHelper.INGREDIENTS_NAME);
+            holder.recipeInfoListItemNumber.setVisibility(View.GONE);
         } else {
             Step step = mRecipe.getStepList().get(position - 1);
             holder.recipeInfoListItemName.setText(step.getShortDescription());
-            holder.recipeInfoListItemName.setTextColor(
-                    mContext.getResources().getColor(R.color.colorAccent)
-            );
-            holder.recipeInfoListItemNumber.setText(String.valueOf(step.getId()) + '.');
-            holder.recipeInfoListItemIcon.setImageResource(R.drawable.ic_icons8_footsteps_96);
-            holder.recipeInfoListItemQuantityLinearLayout.setBackground(
+            holder.recipeInfoListItemNumber.setVisibility(View.VISIBLE);
+            int stepId = step.getId();
+            if (stepId == 0) {
+                holder.recipeInfoListItemNumber.setVisibility(View.GONE);
+            } else {
+                holder.recipeInfoListItemNumber.setText(
+                        mContext.getResources().getString(R.string.hashtag) + String.valueOf(stepId)
+                );
+            }
+        }
+        if (mIsClicked && mClickedPosition == position) {
+            holder.recipeInfoListItemLinearLayout.setBackground(
                     mContext.getResources()
-                            .getDrawable(R.drawable.recipe_info_list_steps_quantity_background)
+                            .getDrawable(R.drawable.recipe_info_list_item_clicked_background)
+            );
+        } else {
+            holder.recipeInfoListItemLinearLayout.setBackground(
+                    mContext.getResources()
+                            .getDrawable(R.drawable.recipe_info_list_item_background)
             );
         }
     }
@@ -86,16 +91,14 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
     class RecipeInfoListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView recipeInfoListItemName;
-        ImageView recipeInfoListItemIcon;
         TextView recipeInfoListItemNumber;
-        LinearLayout recipeInfoListItemQuantityLinearLayout;
+        LinearLayout recipeInfoListItemLinearLayout;
 
         public RecipeInfoListViewHolder(View itemView) {
             super(itemView);
             recipeInfoListItemName = itemView.findViewById(R.id.tv_recipe_info_list_item_name);
-            recipeInfoListItemIcon = itemView.findViewById(R.id.iv_recipe_info_list_item_icon);
             recipeInfoListItemNumber = itemView.findViewById(R.id.tv_recipe_info_list_item_number);
-            recipeInfoListItemQuantityLinearLayout = itemView.findViewById(R.id.ll_recipe_info_list_quantity);
+            recipeInfoListItemLinearLayout = itemView.findViewById(R.id.ll_recipe_info_list_item);
             itemView.setOnClickListener(this);
         }
 

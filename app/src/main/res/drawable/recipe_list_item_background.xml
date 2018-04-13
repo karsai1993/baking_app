@@ -2,9 +2,6 @@
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
         android:color="@color/colorAccent" />
-    <!--stroke
-        android:color="@color/colorPrimaryDark"
-        android:width="2dp" /-->
     <corners
-        android:radius="@dimen/recipe_list_corner_radius"/>
+        android:radius="@dimen/corner_radius"/>
 </shape>

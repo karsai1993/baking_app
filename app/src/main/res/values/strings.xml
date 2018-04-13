@@ -11,4 +11,5 @@
     <string name="ingredient_field_quantity">Quantity</string>
     <string name="ingredient_field_measure">Measure</string>
     <string name="image_button_onclick_method_name">onNavigationButtonClicked</string>
+    <string name="hashtag">#</string>
 </resources>

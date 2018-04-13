@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/recycler_view_side_dist" >
+    android:padding="@dimen/distance" >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -14,8 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/recycler_view_side_dist"
-        android:id="@+id/rl_info_list_nav_btn_container" >
+        android:paddingTop="@dimen/distance" >
 
         <ImageButton
             style="@style/image_button_prev_info_list"

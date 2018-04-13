@@ -32,15 +32,14 @@
     <style name="BakingTimeTheme" parent="AppTheme" />
 
     <style name="recipe_info_list_ingredients_text_view" parent="AppTheme">
-        <item name="android:layout_width">@dimen/zero_dp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="recipe_info_list_ingredients_header_text_view" parent="recipe_info_list_ingredients_text_view">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="image_button" parent="AppTheme">
@@ -50,11 +49,11 @@
     </style>
 
     <style name="image_button_info_list" parent="image_button">
-        <item name="android:background">@drawable/recipe_info_list_nav_btn_background</item>
+        <item name="android:background">@drawable/recipe_info_list_item_nav_btn_background</item>
     </style>
 
     <style name="image_button_info_list_detail" parent="image_button">
-        <item name="android:background">@drawable/recipe_info_list_detail_nav_btn_background</item>
+        <item name="android:background">@drawable/recipe_info_list_detail_item_nav_btn_background</item>
     </style>
 
     <style name="image_button_prev_info_list" parent="image_button_info_list">

@@ -1,6 +1,5 @@
 package udacity.com.bakingtime.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import udacity.com.bakingtime.CommonApplicationFields;
+import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.fragment.RecipeInfoListIngredientsFragment;
 import udacity.com.bakingtime.fragment.RecipeInfoListStepsFragment;
@@ -46,15 +45,14 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Bundle receivedBundle = getIntent().getExtras();
-
-        Recipe recipe = receivedBundle.getParcelable(CommonApplicationFields.RECIPE_EXTRA_DATA);
+        Recipe recipe = receivedBundle.getParcelable(ApplicationHelper.RECIPE_EXTRA_DATA);
         mIngredientList = recipe.getIngredientList();
         mStepList = recipe.getStepList();
 
         mActionBar = getSupportActionBar();
 
         mPosition = receivedBundle.getInt(
-                CommonApplicationFields.RECIPE_INFO_LIST_POSITION_EXTRA_DATA
+                ApplicationHelper.RECIPE_INFO_LIST_POSITION_EXTRA_DATA
         );
         displayFragment();
     }
@@ -64,11 +62,11 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (mPosition) {
             case 0:
-                mActionBar.setTitle(CommonApplicationFields.INGREDIENTS_NAME);
+                mActionBar.setTitle(ApplicationHelper.INGREDIENTS_NAME);
                 fragment = new RecipeInfoListIngredientsFragment();
                 Bundle ingredientsBundle = new Bundle();
                 ingredientsBundle.putParcelableArrayList(
-                        CommonApplicationFields.INGREDIENT_LIST_EXTRA_DATA,
+                        ApplicationHelper.INGREDIENT_LIST_EXTRA_DATA,
                         (ArrayList<Ingredient>) mIngredientList
                 );
                 fragment.setArguments(ingredientsBundle);
@@ -82,7 +80,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
                 fragment = new RecipeInfoListStepsFragment();
                 Bundle stepsBundle = new Bundle();
                 stepsBundle.putParcelable(
-                        CommonApplicationFields.STEP_EXTRA_DATA,
+                        ApplicationHelper.STEP_EXTRA_DATA,
                         mStepList.get(stepListPosition)
                 );
                 fragment.setArguments(stepsBundle);
@@ -91,7 +89,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
                         .commit();
                 break;
         }
-        CommonApplicationFields.navigationButtonHandler(
+        ApplicationHelper.navigationButtonHandler(
                 mPosition,
                 mStepList.size() + 1,
                 prevImageBtn,
@@ -109,14 +107,14 @@ public class RecipeInfoListDetail extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CommonApplicationFields.POSITION_STATE_SAVE_KEY, mPosition);
+        outState.putInt(ApplicationHelper.POSITION_STATE_SAVE_KEY, mPosition);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mPosition = savedInstanceState.getInt(CommonApplicationFields.POSITION_STATE_SAVE_KEY);
+        mPosition = savedInstanceState.getInt(ApplicationHelper.POSITION_STATE_SAVE_KEY);
         displayFragment();
     }
 }

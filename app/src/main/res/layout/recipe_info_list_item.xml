@@ -1,46 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_recipe_info_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/recipe_list_side_dist"
-    android:orientation="horizontal"
-    android:background="@drawable/recipe_info_list_background" >
+    android:layout_margin="@dimen/distance"
+    android:orientation="vertical"
+    android:background="@drawable/recipe_info_list_item_background">
 
-    <LinearLayout
-        android:id="@+id/ll_recipe_info_list_quantity"
-        android:layout_width="wrap_content"
+    <TextView
+        style="@style/AppTheme"
+        android:id="@+id/tv_recipe_info_list_item_number"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="@dimen/recipe_list_side_dist"
-        android:layout_marginLeft="@dimen/recipe_list_side_dist"
-        android:layout_marginTop="@dimen/recipe_list_side_dist"
-        android:layout_marginBottom="@dimen/recipe_list_side_dist">
-
-        <ImageView
-            android:id="@+id/iv_recipe_info_list_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            style="@style/AppTheme"
-            android:id="@+id/tv_recipe_info_list_item_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:gravity="center"/>
-    </LinearLayout>
+        android:paddingTop="@dimen/distance"
+        android:textStyle="bold"
+        android:gravity="center" />
 
 
     <TextView
         android:id="@+id/tv_recipe_info_list_item_name"
         style="@style/AppTheme"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:padding="@dimen/distance"
         android:gravity="center"
-        android:textStyle="bold"
-        android:layout_marginEnd="@dimen/recipe_list_side_dist"
-        android:layout_marginRight="@dimen/recipe_list_side_dist"/>
+        android:textStyle="bold" />
 
 </LinearLayout>

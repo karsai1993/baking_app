@@ -13,6 +13,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -31,7 +32,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import udacity.com.bakingtime.CommonApplicationFields;
+import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.model.Step;
 
@@ -48,6 +49,7 @@ public class RecipeInfoListStepsFragment extends Fragment {
     private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private Step mStep;
+    private ScrollView mInstructionScrollView;
     private TextView mInstructionTextView;
 
     private static final String TAG = RecipeInfoListStepsFragment.class.getName();
@@ -62,10 +64,17 @@ public class RecipeInfoListStepsFragment extends Fragment {
         );
 
         Bundle receivedStepsBundle = getArguments();
-        mStep = receivedStepsBundle.getParcelable(CommonApplicationFields.STEP_EXTRA_DATA);
+        mStep = receivedStepsBundle.getParcelable(ApplicationHelper.STEP_EXTRA_DATA);
 
-        mInstructionTextView = rootView.findViewById(R.id.tv_step_description);
-        mInstructionTextView.setText(mStep.getDescription());
+        mInstructionScrollView = rootView.findViewById(R.id.sv_step_description);
+        String description = mStep.getDescription();
+        if (description.equals(mStep.getShortDescription())) {
+            mInstructionScrollView.setVisibility(View.GONE);
+        } else {
+            mInstructionScrollView.setVisibility(View.VISIBLE);
+            mInstructionTextView = rootView.findViewById(R.id.tv_step_description);
+            mInstructionTextView.setText(description);
+        }
 
         mExoPlayerView = rootView.findViewById(R.id.exoplayer_step_video);
 

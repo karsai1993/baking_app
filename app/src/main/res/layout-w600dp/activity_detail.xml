@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/distance" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/recipe_info_fragment" />
+
+        <View
+            android:layout_width="@dimen/separator_view_width"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/distance"
+            android:layout_marginStart="@dimen/distance" />
+
+        <LinearLayout
+            android:id="@+id/ll_recipe_info_list_detail"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_margin="@dimen/distance">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recipe_info_list_detail_fragment"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/distance"
+        android:id="@+id/rl_info_list_nav_btn_container" >
+
+        <ImageButton
+            style="@style/image_button_prev_info_list"
+            android:id="@+id/ib_info_list_nav_btn_prev" />
+
+        <ImageButton
+            style="@style/image_button_next_info_list"
+            android:id="@+id/ib_info_list_nav_btn_next" />
+
+    </RelativeLayout>
+
+</LinearLayout>

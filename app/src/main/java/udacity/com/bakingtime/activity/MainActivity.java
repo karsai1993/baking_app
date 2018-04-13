@@ -1,10 +1,8 @@
 package udacity.com.bakingtime.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,7 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import udacity.com.bakingtime.CommonApplicationFields;
+import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.OnClickListener;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.adapter.RecipeAdapter;
@@ -106,10 +104,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onItemClick(int position) {
         Intent startDetailActivity = new Intent(MainActivity.this, DetailActivity.class);
         startDetailActivity.putParcelableArrayListExtra(
-                CommonApplicationFields.RECIPE_LIST_EXTRA_DATA,
+                ApplicationHelper.RECIPE_LIST_EXTRA_DATA,
                 (ArrayList<Recipe>) mRecipeList
         );
-        startDetailActivity.putExtra(CommonApplicationFields.RECIPE_POSITION_EXTRA_DATA, position);
+        startDetailActivity.putExtra(ApplicationHelper.RECIPE_POSITION_EXTRA_DATA, position);
         startActivity(startDetailActivity);
     }
 

@@ -41,7 +41,7 @@ public class JsonUtils {
             List<Ingredient> ingredientList = new ArrayList<>();
             for (int j = 0; j < ingredientJsonArray.length(); j++) {
                 JSONObject currIngredient = ingredientJsonArray.getJSONObject(j);
-                int quantity = currIngredient.optInt(QUANTITY_KEY);
+                double quantity = currIngredient.optDouble(QUANTITY_KEY);
                 String measure = currIngredient.optString(MEASURE_KEY);
                 String ingredientName = currIngredient.optString(INGREDIENT_KEY);
                 ingredientList.add( new Ingredient(quantity, measure, ingredientName) );

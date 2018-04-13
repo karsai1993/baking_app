@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/recipe_list_side_dist">
+    android:layout_margin="@dimen/distance">
 
     <FrameLayout
         android:layout_width="match_parent"

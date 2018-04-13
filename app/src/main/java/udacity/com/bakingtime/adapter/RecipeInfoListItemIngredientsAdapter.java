@@ -16,7 +16,8 @@ import udacity.com.bakingtime.model.Ingredient;
  * Created by Laci on 11/04/2018.
  */
 
-public class RecipeInfoListItemIngredientsAdapter extends RecyclerView.Adapter<RecipeInfoListItemIngredientsAdapter.RecipeInfoListItemIngredientsViewHolder>{
+public class RecipeInfoListItemIngredientsAdapter extends RecyclerView
+        .Adapter<RecipeInfoListItemIngredientsAdapter.RecipeInfoListItemIngredientsViewHolder>{
 
     private Context mContext;
     private List<Ingredient> mIngredientList;
@@ -39,8 +40,26 @@ public class RecipeInfoListItemIngredientsAdapter extends RecyclerView.Adapter<R
         holder.sequence.setText(String.valueOf(position + 1) + '.');
         Ingredient ingredient = mIngredientList.get(position);
         holder.name.setText(ingredient.getName());
-        holder.quantity.setText(String.valueOf(ingredient.getQuantity()));
-        holder.measure.setText(ingredient.getMeasure());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(
+                getQuantityWithRespectToDecimal(
+                        String.valueOf(ingredient.getQuantity())
+                )
+        );
+        stringBuilder.append(" ");
+        stringBuilder.append(ingredient.getMeasure());
+        holder.quantityAndMeasure.setText(stringBuilder.toString());
+    }
+
+    private String getQuantityWithRespectToDecimal(String quantity) {
+        int dotIndex = quantity.indexOf('.');
+        String integerPart = quantity.substring(0, dotIndex);
+        String decimalPart = quantity.substring(dotIndex + 1);
+        int decimalPartAsNumber = Integer.parseInt(decimalPart);
+        if (decimalPartAsNumber == 0) {
+            return integerPart;
+        }
+        return quantity;
     }
 
     @Override
@@ -52,15 +71,14 @@ public class RecipeInfoListItemIngredientsAdapter extends RecyclerView.Adapter<R
 
         TextView sequence;
         TextView name;
-        TextView quantity;
-        TextView measure;
+        TextView quantityAndMeasure;
 
         public RecipeInfoListItemIngredientsViewHolder(View itemView) {
             super(itemView);
             sequence = itemView.findViewById(R.id.tv_recipe_info_list_ingredients_item_sequence);
             name = itemView.findViewById(R.id.tv_recipe_info_list_ingredients_item_name);
-            quantity = itemView.findViewById(R.id.tv_recipe_info_list_ingredients_item_quantity);
-            measure = itemView.findViewById(R.id.tv_recipe_info_list_ingredients_item_measure);
+            quantityAndMeasure = itemView
+                    .findViewById(R.id.tv_recipe_info_list_ingredients_item_quantity_and_measure);
         }
     }
 }

@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/recipe_list_side_dist"
-    android:orientation="horizontal" >
+    android:padding="@dimen/distance">
 
-    <TextView
-        android:id="@+id/tv_recipe_info_list_ingredients_item_sequence"
-        style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="0.4" />
+    <RelativeLayout
+        android:layout_width="@dimen/ingredient_list_item_sizes"
+        android:layout_height="@dimen/ingredient_list_item_sizes"
+        android:layout_centerInParent="true">
 
-    <TextView
-        android:id="@+id/tv_recipe_info_list_ingredients_item_name"
-        style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="3" />
-    <TextView
-        android:id="@+id/tv_recipe_info_list_ingredients_item_quantity"
-        style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="1" />
-    <TextView
-        android:id="@+id/tv_recipe_info_list_ingredients_item_measure"
-        style="@style/recipe_info_list_ingredients_text_view"
-        android:layout_weight="1" />
+        <TextView
+            style="@style/AppTheme"
+            android:id="@+id/tv_recipe_info_list_ingredients_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ingredients_name_background"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/ingredient_list_name_item_dist"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent" />
 
-</LinearLayout>
+        <TextView
+            style="@style/AppTheme"
+            android:id="@+id/tv_recipe_info_list_ingredients_item_sequence"
+            android:layout_width="@dimen/ingredient_list_sequence_item_sizes"
+            android:layout_height="@dimen/ingredient_list_sequence_item_sizes"
+            android:background="@drawable/ingredients_sequence_background"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/AppTheme"
+            android:id="@+id/tv_recipe_info_list_ingredients_item_quantity_and_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/ingredient_list_quantity_and_measure_item_height"
+            android:background="@drawable/ingredients_quantity_and_measure_background"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/ingredient_list_quantity_and_measure_item_padding"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

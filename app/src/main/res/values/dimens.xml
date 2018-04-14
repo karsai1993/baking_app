@@ -9,6 +9,7 @@
     <dimen name="background_stroke_width">5dp</dimen>
     <dimen name="corner_radius">12dp</dimen>
     <dimen name="distance">8dp</dimen>
+    <dimen name="small_distance">4dp</dimen>
     <dimen name="ingredient_list_item_sizes">175dp</dimen>
     <dimen name="ingredient_list_name_item_dist">25dp</dimen>
     <dimen name="ingredient_list_sequence_item_sizes">50dp</dimen>

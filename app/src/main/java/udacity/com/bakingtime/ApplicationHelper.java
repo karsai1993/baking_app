@@ -23,6 +23,7 @@ import udacity.com.bakingtime.model.Step;
 public class ApplicationHelper {
     public static final String RECIPE_EXTRA_DATA = "recipe_extra_data";
     public static final String TWO_PANE_EXTRA_DATA = "two_pane_extra_data";
+    public static final String ROTATION_EXTRA_DATA = "initial_extra_data";
     public static final String RECIPE_LIST_EXTRA_DATA = "recipe_list_extra_data";
     public static final String RECIPE_POSITION_EXTRA_DATA = "recipe_position_extra_data";
     public static final String RECIPE_INFO_LIST_POSITION_EXTRA_DATA = "recipe_info_list_position_extra_data";

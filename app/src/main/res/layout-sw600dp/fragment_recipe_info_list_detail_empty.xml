@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:textStyle="bold|italic"
     android:textSize="@dimen/step_instruction"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="@dimen/distance">
 
 </TextView>

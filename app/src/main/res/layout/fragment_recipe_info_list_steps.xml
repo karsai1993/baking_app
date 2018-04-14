@@ -9,27 +9,30 @@
     <ScrollView
         android:id="@+id/sv_step_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingBottom="@dimen/distance" >
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/distance">
 
         <TextView
-            style="@style/AppTheme"
             android:id="@+id/tv_step_description"
+            style="@style/AppTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
             android:textSize="@dimen/step_instruction"
-            android:textColor="@color/colorAccent" />
+            android:textStyle="bold"
+            android:paddingBottom="@dimen/small_distance"
+            android:paddingTop="@dimen/small_distance"
+            android:text="0123"/>
 
     </ScrollView>
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/exoplayer_step_video"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,21 +23,36 @@ import udacity.com.bakingtime.model.Step;
 
 public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAdapter.RecipeInfoListViewHolder>{
 
-    private static Context mContext;
-    private static Recipe mRecipe;
+    private Context mContext;
+    private Recipe mRecipe;
     private static OnClickListener mOnClickListener;
-    private boolean mIsClicked;
-    private int mClickedPosition;
+    private static boolean mIsClicked;
+    private static int mClickedPosition;
+    private boolean mIsRotated;
 
-    public RecipeInfoListAdapter(Context context, Recipe recipe, OnClickListener onClickListener) {
+    public RecipeInfoListAdapter(
+            Context context,
+            Recipe recipe,
+            OnClickListener onClickListener,
+            boolean isRotated) {
         this.mContext = context;
         this.mRecipe = recipe;
         this.mOnClickListener = onClickListener;
+        this.mIsRotated = isRotated;
+        if (!mIsRotated && !mIsClicked) this.mClickedPosition = -1;
+        this.mIsClicked = false;
     }
 
-    public RecipeInfoListAdapter(boolean isClicked, int clickedPosition) {
-        this.mIsClicked = isClicked;
+    public RecipeInfoListAdapter(
+            Context context,
+            Recipe recipe,
+            int clickedPosition,
+            boolean isRotated) {
+        this.mIsClicked = true;
+        this.mContext = context;
+        this.mRecipe = recipe;
         this.mClickedPosition = clickedPosition;
+        this.mIsRotated = isRotated;
     }
 
     @Override
@@ -70,17 +86,34 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
                 );
             }
         }
-        if (mIsClicked && mClickedPosition == position) {
-            holder.recipeInfoListItemLinearLayout.setBackground(
-                    mContext.getResources()
-                            .getDrawable(R.drawable.recipe_info_list_item_clicked_background)
-            );
+
+        if (mIsRotated) {
+            if (mClickedPosition != -1 && mClickedPosition == position) {
+                applyClickedBackground(holder.recipeInfoListItemLinearLayout);
+            } else {
+                applyNonClickedBackground(holder.recipeInfoListItemLinearLayout);
+            }
         } else {
-            holder.recipeInfoListItemLinearLayout.setBackground(
-                    mContext.getResources()
-                            .getDrawable(R.drawable.recipe_info_list_item_background)
-            );
+            if (mIsClicked && mClickedPosition == position) {
+                applyClickedBackground(holder.recipeInfoListItemLinearLayout);
+            } else {
+                applyNonClickedBackground(holder.recipeInfoListItemLinearLayout);
+            }
         }
+    }
+
+    private void applyClickedBackground(LinearLayout linearLayout) {
+        linearLayout.setBackground(
+                mContext.getResources()
+                        .getDrawable(R.drawable.recipe_info_list_item_clicked_background)
+        );
+    }
+
+    private void applyNonClickedBackground(LinearLayout linearLayout) {
+        linearLayout.setBackground(
+                mContext.getResources()
+                        .getDrawable(R.drawable.recipe_info_list_item_background)
+        );
     }
 
     @Override

@@ -99,7 +99,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
                     Bundle stepsBundle = new Bundle();
                     stepsBundle.putParcelable(
                             ApplicationHelper.STEP_EXTRA_DATA,
-                            mStepList.get(mPosition)
+                            mStepList.get(stepListPosition)
                     );
                     fragment.setArguments(stepsBundle);
                     fragmentManager.beginTransaction()

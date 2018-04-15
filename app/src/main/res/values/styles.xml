@@ -62,7 +62,6 @@
         <item name="android:src">@drawable/ic_icons8_prev_96</item>
     </style>
 
-
     <style name="image_button_prev_info_list_detail" parent="image_button_info_list_detail">
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_alignParentLeft">true</item>

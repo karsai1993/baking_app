@@ -9,7 +9,8 @@
     <ScrollView
         android:id="@+id/sv_step_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingBottom="@dimen/distance">
 
         <TextView
@@ -23,16 +24,22 @@
             android:textSize="@dimen/step_instruction"
             android:textStyle="bold"
             android:paddingBottom="@dimen/small_distance"
-            android:paddingTop="@dimen/small_distance"
-            android:text="0123"/>
+            android:paddingTop="@dimen/small_distance" />
 
     </ScrollView>
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/exoplayer_step_video"
+    <FrameLayout
+        android:id="@+id/main_media_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="gone"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/exoplayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+
+    </FrameLayout>
 
 </LinearLayout>

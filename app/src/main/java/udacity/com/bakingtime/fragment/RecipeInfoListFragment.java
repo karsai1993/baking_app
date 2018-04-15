@@ -28,6 +28,8 @@ import udacity.com.bakingtime.model.Recipe;
 
 /**
  * Created by Laci on 10/04/2018.
+ * This class creates the fragment of each recipe information list (ingredients and steps), and in
+ * two pane mode, it also creates the fragment of selected list item detail introduction.
  */
 
 public class RecipeInfoListFragment extends Fragment {
@@ -63,12 +65,15 @@ public class RecipeInfoListFragment extends Fragment {
             mIsRotated = savedInstanceState.getBoolean(ApplicationHelper.ROTATION_EXTRA_DATA);
         }
 
+        int spanCount = getContext().getResources().getInteger(R.integer.span_count);
+        if (mIsTwoPaneAvailable) spanCount = 1;
+
         View rootView = inflater.inflate(
                 R.layout.fragment_recipe_info_list,
                 container,
                 false);
         mRecipeInfoListRecyclerView = rootView.findViewById(R.id.rv_recipe_info);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         mRecipeInfoListRecyclerView.setLayoutManager(layoutManager);
         mRecipeInfoListRecyclerView.setHasFixedSize(true);
 
@@ -76,15 +81,23 @@ public class RecipeInfoListFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 if (mIsTwoPaneAvailable) {
-                    DetailActivity.applyInfoListDetailFragment(position, mRecipe);
-                    mRecipeInfoListAdapter = new RecipeInfoListAdapter(getContext(), mRecipe, position, mIsRotated);
+                    DetailActivity.applyInfoListDetailFragment(position, mRecipe, getContext());
+                    mRecipeInfoListAdapter = new RecipeInfoListAdapter(
+                            getContext(),
+                            mRecipe,
+                            position,
+                            mIsRotated
+                    );
                     mRecipeInfoListRecyclerView.setAdapter(mRecipeInfoListAdapter);
                     mRecipeInfoListRecyclerView.scrollToPosition(position);
                 } else {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(ApplicationHelper.RECIPE_EXTRA_DATA, mRecipe);
                     bundle.putInt(ApplicationHelper.RECIPE_INFO_LIST_POSITION_EXTRA_DATA, position);
-                    Intent startRecipeDetailActivity = new Intent(getContext(), RecipeInfoListDetail.class);
+                    Intent startRecipeDetailActivity = new Intent(
+                            getContext(),
+                            RecipeInfoListDetail.class
+                    );
                     startRecipeDetailActivity.putExtras(bundle);
                     startActivity(startRecipeDetailActivity);
                 }
@@ -92,7 +105,12 @@ public class RecipeInfoListFragment extends Fragment {
                 mIsClicked = true;
             }
         };
-        mRecipeInfoListAdapter = new RecipeInfoListAdapter(getContext(), mRecipe, onClickListener, mIsRotated);
+        mRecipeInfoListAdapter = new RecipeInfoListAdapter(
+                getContext(),
+                mRecipe,
+                onClickListener,
+                mIsRotated
+        );
         mRecipeInfoListRecyclerView.setAdapter(mRecipeInfoListAdapter);
 
         return rootView;

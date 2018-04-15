@@ -56,12 +56,11 @@
             android:includeFontPadding="false"
             android:textColor="#FFBEBEBE"/>
 
-        <SeekBar android:id="@id/exo_progress"
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+            android:id="@id/exo_progress"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="32dp"
-            android:focusable="false"
-            style="?android:attr/progressBarStyleHorizontal"/>
+            android:layout_height="26dp" />
 
         <TextView android:id="@id/exo_duration"
             android:layout_width="wrap_content"
@@ -72,6 +71,23 @@
             android:paddingRight="4dp"
             android:includeFontPadding="false"
             android:textColor="#FFBEBEBE"/>
+
+        <FrameLayout
+            android:id="@+id/exo_fullscreen_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right">
+
+            <ImageView
+                android:id="@+id/exo_fullscreen_icon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_icons8_expand_96"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 

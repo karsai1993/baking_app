@@ -1,9 +1,11 @@
 package udacity.com.bakingtime.activity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,6 +26,7 @@ import udacity.com.bakingtime.model.Step;
 
 /**
  * Created by Laci on 10/04/2018.
+ * This class invokes the fragment of selected list item detail introduction.
  */
 
 public class RecipeInfoListDetail extends AppCompatActivity {
@@ -37,6 +40,8 @@ public class RecipeInfoListDetail extends AppCompatActivity {
     private List<Step> mStepList;
     private int mPosition;
     private ActionBar mActionBar;
+    private List<String> mFragmentTagList;
+    private int mMaxNum;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,12 +54,24 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         mIngredientList = recipe.getIngredientList();
         mStepList = recipe.getStepList();
 
+        mMaxNum = mStepList.size() + 1;
+        populateFragmentTagList(mMaxNum);
+
         mActionBar = getSupportActionBar();
 
         mPosition = receivedBundle.getInt(
                 ApplicationHelper.RECIPE_INFO_LIST_POSITION_EXTRA_DATA
         );
-        displayFragment();
+        if (savedInstanceState == null) {
+            displayFragment();
+        }
+    }
+
+    private void populateFragmentTagList(int maxNum) {
+        mFragmentTagList = new ArrayList<>();
+        for (int i = 0; i < maxNum; i++) {
+            mFragmentTagList.add(getResources().getString(R.string.hashtag) + i);
+        }
     }
 
     private void displayFragment() {
@@ -77,16 +94,18 @@ public class RecipeInfoListDetail extends AppCompatActivity {
             default:
                 int stepListPosition = mPosition - 1;
                 mActionBar.setTitle(mStepList.get(stepListPosition).getShortDescription());
-                fragment = new RecipeInfoListStepsFragment();
-                Bundle stepsBundle = new Bundle();
-                stepsBundle.putParcelable(
-                        ApplicationHelper.STEP_EXTRA_DATA,
-                        mStepList.get(stepListPosition)
-                );
-                fragment.setArguments(stepsBundle);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.recipe_info_list_detail_fragment, fragment)
-                        .commit();
+                if (fragmentManager.findFragmentByTag(mFragmentTagList.get(mPosition)) == null) {
+                    fragment = new RecipeInfoListStepsFragment();
+                    Bundle stepsBundle = new Bundle();
+                    stepsBundle.putParcelable(
+                            ApplicationHelper.STEP_EXTRA_DATA,
+                            mStepList.get(mPosition)
+                    );
+                    fragment.setArguments(stepsBundle);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.recipe_info_list_detail_fragment, fragment, mFragmentTagList.get(mPosition))
+                            .commit();
+                }
                 break;
         }
         ApplicationHelper.navigationButtonHandler(
@@ -102,6 +121,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         } else {
             mPosition++;
         }
+        populateFragmentTagList(mMaxNum);
         displayFragment();
     }
 

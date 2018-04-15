@@ -19,6 +19,7 @@ import udacity.com.bakingtime.model.Ingredient;
 
 /**
  * Created by Laci on 11/04/2018.
+ * This class creates the fragment of ingredient introduction.
  */
 
 public class RecipeInfoListIngredientsFragment extends Fragment {

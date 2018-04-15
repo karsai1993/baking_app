@@ -30,6 +30,12 @@ import udacity.com.bakingtime.model.Recipe;
 import udacity.com.bakingtime.utils.JsonUtils;
 import udacity.com.bakingtime.utils.NetworkUtils;
 
+/**
+ * This class downloads all data from network, and populates them by collecting the most relevant
+ * information about them.
+ *
+ * Used butterknife library to make view binding simpler.
+ */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @BindView(R.id.pb_loading)

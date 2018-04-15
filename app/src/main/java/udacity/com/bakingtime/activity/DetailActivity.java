@@ -1,5 +1,6 @@
 package udacity.com.bakingtime.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ import udacity.com.bakingtime.model.Recipe;
 
 /**
  * Created by Laci on 10/04/2018.
+ * This class invokes the recipe info list fragment.
  */
 
 public class DetailActivity extends AppCompatActivity {
@@ -47,6 +49,7 @@ public class DetailActivity extends AppCompatActivity {
     private boolean mIsTwoPaneModeAvailable;
     private ActionBar mActionBar;
     private static FragmentManager mFragmentManager;
+    private static List<String> mFragmentTagList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +90,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void applyInfoListFragment(boolean isRotated) {
-        //if (is) return;
         Fragment fragment = new RecipeInfoListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ApplicationHelper.RECIPE_EXTRA_DATA, mRecipeList.get(mRecipePosition));
@@ -137,8 +139,9 @@ public class DetailActivity extends AppCompatActivity {
         displayInfo(false);
     }
 
-    public static void applyInfoListDetailFragment(int position, Recipe recipe) {
+    public static void applyInfoListDetailFragment(int position, Recipe recipe, Context context) {
         Fragment fragment;
+        populateFragmentTagList(recipe.getStepList().size() + 1, context);
         switch (position) {
             case 0:
                 fragment = new RecipeInfoListIngredientsFragment();
@@ -155,19 +158,27 @@ public class DetailActivity extends AppCompatActivity {
                         .commit();
                 break;
             default:
-                fragment = new RecipeInfoListStepsFragment();
-                Bundle stepsBundle = new Bundle();
-                stepsBundle.putParcelable(
-                        ApplicationHelper.STEP_EXTRA_DATA,
-                        recipe.getStepList().get(position - 1)
-                );
-                fragment.setArguments(stepsBundle);
-                mFragmentManager.beginTransaction()
-                        .replace(
-                                R.id.recipe_info_list_detail_fragment,
-                                fragment)
-                        .commit();
+                if (mFragmentManager.findFragmentByTag(mFragmentTagList.get(position)) == null) {
+                    fragment = new RecipeInfoListStepsFragment();
+                    Bundle stepsBundle = new Bundle();
+                    stepsBundle.putParcelable(
+                            ApplicationHelper.STEP_EXTRA_DATA,
+                            recipe.getStepList().get(position - 1)
+                    );
+                    fragment.setArguments(stepsBundle);
+                    mFragmentManager.beginTransaction()
+                            .replace(
+                                    R.id.recipe_info_list_detail_fragment,
+                                    fragment)
+                            .commit();
+                }
                 break;
+        }
+    }
+    private static void populateFragmentTagList(int maxNum, Context context) {
+        mFragmentTagList = new ArrayList<>();
+        for (int i = 0; i < maxNum; i++) {
+            mFragmentTagList.add(context.getResources().getString(R.string.hashtag) + i);
         }
     }
 }

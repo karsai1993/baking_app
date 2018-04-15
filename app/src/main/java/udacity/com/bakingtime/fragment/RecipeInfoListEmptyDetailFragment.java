@@ -13,6 +13,7 @@ import udacity.com.bakingtime.R;
 
 /**
  * Created by Laci on 12/04/2018.
+ * This class creates the fragment of welcome screen in two pane mode.
  */
 
 public class RecipeInfoListEmptyDetailFragment extends Fragment {

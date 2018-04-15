@@ -49,11 +49,11 @@
     </style>
 
     <style name="image_button_info_list" parent="image_button">
-        <item name="android:background">@drawable/recipe_info_list_item_nav_btn_background</item>
+        <item name="android:background">@drawable/recipe_nav_btn_background</item>
     </style>
 
     <style name="image_button_info_list_detail" parent="image_button">
-        <item name="android:background">@drawable/recipe_info_list_detail_item_nav_btn_background</item>
+        <item name="android:background">@drawable/recipe_nav_btn_background</item>
     </style>
 
     <style name="image_button_prev_info_list" parent="image_button_info_list">

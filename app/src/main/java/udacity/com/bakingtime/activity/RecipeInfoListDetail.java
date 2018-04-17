@@ -52,7 +52,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Bundle receivedBundle = getIntent().getExtras();
-        //Log.d("hopp", getIntent().getAction());
+
         Recipe recipe = receivedBundle.getParcelable(ApplicationHelper.RECIPE_EXTRA_DATA);
         mIngredientList = recipe.getIngredientList();
         mStepList = recipe.getStepList();

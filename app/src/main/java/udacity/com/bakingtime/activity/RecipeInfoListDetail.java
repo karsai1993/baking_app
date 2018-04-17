@@ -8,8 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Bundle receivedBundle = getIntent().getExtras();
+        //Log.d("hopp", getIntent().getAction());
         Recipe recipe = receivedBundle.getParcelable(ApplicationHelper.RECIPE_EXTRA_DATA);
         mIngredientList = recipe.getIngredientList();
         mStepList = recipe.getStepList();
@@ -80,6 +83,7 @@ public class RecipeInfoListDetail extends AppCompatActivity {
         switch (mPosition) {
             case 0:
                 mActionBar.setTitle(ApplicationHelper.INGREDIENTS_NAME);
+                mActionBar.setDisplayHomeAsUpEnabled(true);
                 fragment = new RecipeInfoListIngredientsFragment();
                 Bundle ingredientsBundle = new Bundle();
                 ingredientsBundle.putParcelableArrayList(

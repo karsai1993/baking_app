@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.model.Ingredient;
 

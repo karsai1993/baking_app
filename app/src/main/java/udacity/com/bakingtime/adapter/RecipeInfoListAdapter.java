@@ -29,18 +29,21 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
     private static boolean mIsClicked;
     private static int mClickedPosition;
     private boolean mIsRotated;
+    private boolean mIsComingFromWidget;
 
     public RecipeInfoListAdapter(
             Context context,
             Recipe recipe,
             OnClickListener onClickListener,
-            boolean isRotated) {
+            boolean isRotated,
+            boolean isFromWidget) {
         this.mContext = context;
         this.mRecipe = recipe;
         this.mOnClickListener = onClickListener;
         this.mIsRotated = isRotated;
         if (!mIsRotated && !mIsClicked) this.mClickedPosition = -1;
         this.mIsClicked = false;
+        this.mIsComingFromWidget = isFromWidget;
     }
 
     public RecipeInfoListAdapter(
@@ -86,8 +89,13 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
                 );
             }
         }
-
-        if (mIsRotated) {
+        if (mIsComingFromWidget) {
+            if (position == 0) {
+                applyClickedBackground(holder.recipeInfoListItemLinearLayout);
+            } else {
+                applyNonClickedBackground(holder.recipeInfoListItemLinearLayout);
+            }
+        } else if (mIsRotated) {
             if (mClickedPosition != -1 && mClickedPosition == position) {
                 applyClickedBackground(holder.recipeInfoListItemLinearLayout);
             } else {

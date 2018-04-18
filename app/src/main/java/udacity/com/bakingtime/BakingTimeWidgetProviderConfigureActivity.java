@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -42,6 +44,7 @@ public class BakingTimeWidgetProviderConfigureActivity extends Activity {
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             final Context context = BakingTimeWidgetProviderConfigureActivity.this;
+            mWindowManager = getWindowManager();
 
             int chosenIndex = mRadioGroup.getCheckedRadioButtonId();
             if (chosenIndex == -1) {
@@ -80,11 +83,28 @@ public class BakingTimeWidgetProviderConfigureActivity extends Activity {
         return mPosition;
     }
 
+    /**
+     * Function to get the smallest width of the screen
+     * source: https://stackoverflow.com/questions/15055458/detect-7-inch-and-10-inch-tablet-programmatically
+     * @return
+     */
+    static float getSmallestWidth() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        mWindowManager.getDefaultDisplay().getMetrics(metrics);
+        int widthPixels = metrics.widthPixels;
+        int heightPixels = metrics.heightPixels;
+        float scaleFactor = metrics.density;
+        float widthDp = widthPixels / scaleFactor;
+        float heightDp = heightPixels / scaleFactor;
+        return Math.min(widthDp, heightDp);
+    }
+
     private static RadioGroup mRadioGroup;
     private TextView mInstruction;
     private Button mBtn;
     private static List<Recipe> mRecipeList;
     private static int mPosition;
+    private static WindowManager mWindowManager;
 
     public BakingTimeWidgetProviderConfigureActivity() {
         super();

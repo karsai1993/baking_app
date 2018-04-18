@@ -1,30 +1,25 @@
 package udacity.com.bakingtime.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import udacity.com.bakingtime.ApplicationHelper;
-import udacity.com.bakingtime.OnClickListener;
 import udacity.com.bakingtime.R;
-import udacity.com.bakingtime.adapter.RecipeInfoListAdapter;
 import udacity.com.bakingtime.fragment.RecipeInfoListEmptyDetailFragment;
 import udacity.com.bakingtime.fragment.RecipeInfoListFragment;
 import udacity.com.bakingtime.fragment.RecipeInfoListIngredientsFragment;
@@ -50,6 +45,7 @@ public class DetailActivity extends AppCompatActivity {
     private ActionBar mActionBar;
     private static FragmentManager mFragmentManager;
     private static List<String> mFragmentTagList;
+    private boolean mIsComingFromWidget;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
                 ApplicationHelper.RECIPE_LIST_EXTRA_DATA
         );
         mRecipePosition = receivedBundle.getInt(ApplicationHelper.RECIPE_POSITION_EXTRA_DATA);
+        mIsComingFromWidget = receivedBundle.getBoolean(ApplicationHelper.WIDGET_BOOLEAN_EXTRA_DATA);
 
         mActionBar = getSupportActionBar();
         mFragmentManager = getSupportFragmentManager();
@@ -71,11 +68,11 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         if (savedInstanceState == null) {
-            displayInfo(false);
+            displayInfo(false, false);
         }
     }
 
-    private void displayInfo(boolean isRotated) {
+    private void displayInfo(boolean isRotated, boolean isNavigationRightOrLeft) {
         mActionBar.setTitle(mRecipeList.get(mRecipePosition).getName());
         ApplicationHelper.navigationButtonHandler(
                 mRecipePosition,
@@ -83,18 +80,21 @@ public class DetailActivity extends AppCompatActivity {
                 prevBtn,
                 nextBtn
         );
-        applyInfoListFragment(isRotated);
+        applyInfoListFragment(isRotated, isNavigationRightOrLeft);
         if (mIsTwoPaneModeAvailable && !isRotated) {
             applyEmptyInfoListDetailFragment();
         }
     }
 
-    private void applyInfoListFragment(boolean isRotated) {
+    private void applyInfoListFragment(boolean isRotated, boolean isNavigatedRightOrLeft) {
         Fragment fragment = new RecipeInfoListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ApplicationHelper.RECIPE_EXTRA_DATA, mRecipeList.get(mRecipePosition));
         bundle.putBoolean(ApplicationHelper.TWO_PANE_EXTRA_DATA, mIsTwoPaneModeAvailable);
         bundle.putBoolean(ApplicationHelper.ROTATION_EXTRA_DATA, isRotated);
+        bundle.putBoolean(ApplicationHelper.NAVIGATION_EXTRA_DATA, isNavigatedRightOrLeft);
+        if (isNavigatedRightOrLeft) mIsComingFromWidget = false;
+        bundle.putBoolean(ApplicationHelper.WIDGET_BOOLEAN_EXTRA_DATA, mIsComingFromWidget);
         fragment.setArguments(bundle);
         if (!isRotated) {
             mFragmentManager.beginTransaction()
@@ -126,7 +126,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mRecipePosition = savedInstanceState.getInt(ApplicationHelper.POSITION_STATE_SAVE_KEY);
-        displayInfo(true);
+        displayInfo(true, false);
     }
 
     public void onNavigationButtonClicked(View view) {
@@ -136,7 +136,7 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             mRecipePosition ++;
         }
-        displayInfo(false);
+        displayInfo(false, true);
     }
 
     public static void applyInfoListDetailFragment(int position, Recipe recipe, Context context) {

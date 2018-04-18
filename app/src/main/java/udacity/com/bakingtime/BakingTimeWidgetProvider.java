@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import udacity.com.bakingtime.activity.DetailActivity;
 import udacity.com.bakingtime.activity.RecipeInfoListDetail;
 import udacity.com.bakingtime.model.Recipe;
 
@@ -33,15 +35,25 @@ public class BakingTimeWidgetProvider extends AppWidgetProvider {
                 R.layout.baking_time_widget_provider
         );
 
-        Intent appIntent = new Intent(context, RecipeInfoListDetail.class);
-        appIntent.setAction(Intent.ACTION_VIEW);
-        appIntent.putExtra(ApplicationHelper.RECIPE_EXTRA_DATA, recipe);
-        appIntent.putExtra(ApplicationHelper.RECIPE_INFO_LIST_POSITION_EXTRA_DATA, 0);
+        float smallestWidth = BakingTimeWidgetProviderConfigureActivity.getSmallestWidth();
+        Intent appIntent;
+        if (smallestWidth > 600) {
+            appIntent = new Intent(context, DetailActivity.class);
+            appIntent.putParcelableArrayListExtra(
+                    ApplicationHelper.RECIPE_LIST_EXTRA_DATA,
+                    (ArrayList<Recipe>) recipeList);
+            appIntent.putExtra(ApplicationHelper.RECIPE_POSITION_EXTRA_DATA, position);
+            appIntent.putExtra(ApplicationHelper.WIDGET_BOOLEAN_EXTRA_DATA, true);
+        } else {
+            appIntent = new Intent(context, RecipeInfoListDetail.class);
+            appIntent.putExtra(ApplicationHelper.RECIPE_EXTRA_DATA, recipe);
+            appIntent.putExtra(ApplicationHelper.RECIPE_INFO_LIST_POSITION_EXTRA_DATA, 0);
+        }
         PendingIntent appPendingIntent = PendingIntent.getActivity(
                 context,
-                0,
+                appWidgetId,
                 appIntent,
-                0
+                PendingIntent.FLAG_UPDATE_CURRENT
         );
         views.setOnClickPendingIntent(R.id.ll_widget, appPendingIntent);
 

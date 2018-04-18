@@ -14,7 +14,6 @@
             style="@style/AppTheme"
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="asdg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/widget_title_top_dist"
@@ -30,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:layout_margin="@dimen/distance"/>
 
     </LinearLayout>
 

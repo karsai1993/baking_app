@@ -44,6 +44,7 @@ public class RecipeInfoListFragment extends Fragment {
     private boolean mIsClicked;
     private boolean mIsRotated;
     private boolean mIsTwoPaneAvailable;
+    private boolean mIsComingFromWidget;
 
     private static final String CLICK_SAVE_EXTRA_DATA = "click_save_extra_data";
 
@@ -55,6 +56,9 @@ public class RecipeInfoListFragment extends Fragment {
             mRecipe = receivedBundle.getParcelable(ApplicationHelper.RECIPE_EXTRA_DATA);
             mIsTwoPaneAvailable = receivedBundle.getBoolean(ApplicationHelper.TWO_PANE_EXTRA_DATA);
             mIsRotated = receivedBundle.getBoolean(ApplicationHelper.ROTATION_EXTRA_DATA);
+            mIsComingFromWidget = receivedBundle.getBoolean(
+                    ApplicationHelper.WIDGET_BOOLEAN_EXTRA_DATA
+            );
         }
 
         if (savedInstanceState != null) {
@@ -63,6 +67,9 @@ public class RecipeInfoListFragment extends Fragment {
             mRecipe = savedInstanceState.getParcelable(ApplicationHelper.RECIPE_EXTRA_DATA);
             mIsTwoPaneAvailable = savedInstanceState.getBoolean(ApplicationHelper.TWO_PANE_EXTRA_DATA);
             mIsRotated = savedInstanceState.getBoolean(ApplicationHelper.ROTATION_EXTRA_DATA);
+            mIsComingFromWidget = savedInstanceState.getBoolean(
+                    ApplicationHelper.WIDGET_BOOLEAN_EXTRA_DATA
+            );
         }
 
         int spanCount = getContext().getResources().getInteger(R.integer.span_count);
@@ -81,6 +88,7 @@ public class RecipeInfoListFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 if (mIsTwoPaneAvailable) {
+                    if (position > 0) mIsComingFromWidget = false;
                     DetailActivity.applyInfoListDetailFragment(position, mRecipe, getContext());
                     mRecipeInfoListAdapter = new RecipeInfoListAdapter(
                             getContext(),
@@ -109,9 +117,14 @@ public class RecipeInfoListFragment extends Fragment {
                 getContext(),
                 mRecipe,
                 onClickListener,
-                mIsRotated
+                mIsRotated,
+                mIsComingFromWidget
         );
         mRecipeInfoListRecyclerView.setAdapter(mRecipeInfoListAdapter);
+
+        if (mIsTwoPaneAvailable && mIsComingFromWidget) {
+            DetailActivity.applyInfoListDetailFragment(0, mRecipe, getContext());
+        }
 
         return rootView;
     }
@@ -124,6 +137,7 @@ public class RecipeInfoListFragment extends Fragment {
         outState.putParcelable(ApplicationHelper.RECIPE_EXTRA_DATA, mRecipe);
         outState.putBoolean(ApplicationHelper.TWO_PANE_EXTRA_DATA, mIsTwoPaneAvailable);
         outState.putBoolean(ApplicationHelper.ROTATION_EXTRA_DATA, true);
+        outState.putBoolean(ApplicationHelper.WIDGET_BOOLEAN_EXTRA_DATA, mIsComingFromWidget);
     }
 
     @Override

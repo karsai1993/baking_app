@@ -40,6 +40,15 @@
             android:layout_height="match_parent"
             android:gravity="center" />
 
+        <TextView
+            android:id="@+id/tv_exopayer_network_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/network_error"
+            android:textSize="@dimen/step_instruction"
+            android:visibility="invisible"/>
+
     </FrameLayout>
 
 </LinearLayout>

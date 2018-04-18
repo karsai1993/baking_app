@@ -13,20 +13,23 @@
         android:id="@+id/tv_fetch_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/main_activity_fetch_error"
-        android:gravity="center" />
+        android:text="@string/fetch_error"
+        android:gravity="center"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/tv_network_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/main_activity_network_error"
-        android:gravity="center" />
+        android:text="@string/network_error"
+        android:gravity="center"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/pb_loading"
         android:layout_height="@dimen/main_activity_progress_bar_sizes"
         android:layout_width="@dimen/main_activity_progress_bar_sizes"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
 </merge>

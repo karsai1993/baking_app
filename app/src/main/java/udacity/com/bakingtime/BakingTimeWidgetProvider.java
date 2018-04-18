@@ -73,7 +73,6 @@ public class BakingTimeWidgetProvider extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
-            Toast.makeText(context, "created " + String.valueOf(appWidgetId), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -82,7 +81,6 @@ public class BakingTimeWidgetProvider extends AppWidgetProvider {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
             BakingTimeWidgetProviderConfigureActivity.deleteRecipePref(context, appWidgetId);
-            Toast.makeText(context, "deleted " + String.valueOf(appWidgetId), Toast.LENGTH_SHORT).show();
         }
     }
 

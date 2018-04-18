@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Baking Time</string>
 
-    <string name="main_activity_fetch_error">Data cannot be fetched!\n
+    <string name="fetch_error">Data cannot be fetched!\n
                                              Please, click Refresh in menu!</string>
-    <string name="main_activity_network_error">Network seems unavailable!\n
+    <string name="network_error">Network seems unavailable!\n
                                                Please, check internet connection!</string>
 
     <string name="action_refresh">Refresh</string>

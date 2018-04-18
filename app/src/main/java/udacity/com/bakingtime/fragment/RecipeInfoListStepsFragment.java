@@ -49,6 +49,7 @@ import com.google.android.exoplayer2.util.Util;
 import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.model.Step;
+import udacity.com.bakingtime.utils.NetworkUtils;
 
 /**
  * This class creates the fragment of each step introduction.
@@ -75,6 +76,7 @@ public class RecipeInfoListStepsFragment extends Fragment {
     private int mResumeWindow;
     private long mResumePosition;
     private View mView;
+    private TextView mNetworkErrorTextView;
 
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
@@ -316,6 +318,21 @@ public class RecipeInfoListStepsFragment extends Fragment {
                         null,
                         null
                 );
+            }
+
+            mNetworkErrorTextView = mView.findViewById(R.id.tv_exopayer_network_error);
+            boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(getContext());
+            if ((mExoPlayerView.getVisibility() == View.VISIBLE) && !isNetworkAvailable) {
+                mExoPlayerView.setVisibility(View.GONE);
+                mNetworkErrorTextView.setVisibility(View.VISIBLE);
+            } else if ((mExoPlayerView.getVisibility() == View.GONE) || !isNetworkAvailable) {
+                mExoPlayerView.setVisibility(View.GONE);
+                mNetworkErrorTextView.setVisibility(View.GONE);
+            } else if ((mExoPlayerView.getVisibility() == View.VISIBLE) && isNetworkAvailable) {
+                mExoPlayerView.setVisibility(View.VISIBLE);
+                mNetworkErrorTextView.setVisibility(View.GONE);
+            } else {
+
             }
         }
 

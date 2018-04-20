@@ -3,6 +3,9 @@ package udacity.com.bakingtime.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +29,7 @@ import butterknife.ButterKnife;
 import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.OnClickListener;
 import udacity.com.bakingtime.R;
+import udacity.com.bakingtime.SimpleIdlingResource;
 import udacity.com.bakingtime.adapter.RecipeAdapter;
 import udacity.com.bakingtime.model.Recipe;
 import udacity.com.bakingtime.utils.JsonUtils;
@@ -49,6 +53,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     RecyclerView mRecipeRecyclerView;
 
     private List<Recipe> mRecipeList;
+    private SimpleIdlingResource mSimpleIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mSimpleIdlingResource == null) {
+            mSimpleIdlingResource = new SimpleIdlingResource();
+        }
+        return mSimpleIdlingResource;
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public List<Recipe> getRecipeList() {
+        return mRecipeList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         @Override
         protected void onPreExecute() {
             mLoadingProgressBar.setVisibility(View.VISIBLE);
+            if (mSimpleIdlingResource != null) mSimpleIdlingResource.setIdleState(false);
         }
 
         @Override
@@ -147,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 mRecipeList = recipeList;
                 RecipeAdapter recipeAdapter = new RecipeAdapter(MainActivity.this, recipeList);
                 mRecipeRecyclerView.setAdapter(recipeAdapter);
+                if (mSimpleIdlingResource != null) mSimpleIdlingResource.setIdleState(true);
             } else {
                 showFetchError();
             }

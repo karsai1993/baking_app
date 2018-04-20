@@ -1,4 +1,4 @@
-package udacity.com.bakingtime;
+package udacity.com.bakingtime.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,11 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import udacity.com.bakingtime.ApplicationHelper;
+import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.activity.DetailActivity;
 import udacity.com.bakingtime.activity.RecipeInfoListDetail;
 import udacity.com.bakingtime.model.Recipe;

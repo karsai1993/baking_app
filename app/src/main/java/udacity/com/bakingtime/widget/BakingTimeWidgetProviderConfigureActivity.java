@@ -1,4 +1,4 @@
-package udacity.com.bakingtime;
+package udacity.com.bakingtime.widget;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import udacity.com.bakingtime.R;
 import udacity.com.bakingtime.model.Ingredient;
 import udacity.com.bakingtime.model.Recipe;
 import udacity.com.bakingtime.utils.JsonUtils;
@@ -35,7 +36,7 @@ import udacity.com.bakingtime.utils.NetworkUtils;
  */
 public class BakingTimeWidgetProviderConfigureActivity extends Activity {
 
-    private static final String PREFS_NAME = "udacity.com.bakingtime.BakingTimeWidgetProvider";
+    private static final String PREFS_NAME = "udacity.com.bakingtime.widget.BakingTimeWidgetProvider";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     private static final String NETWORK_ERROR = "No network available! Please, check it and come back!";
     private static final String FETCH_ERROR = "Fetch error! Please, try it again!";

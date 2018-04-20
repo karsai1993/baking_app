@@ -1,4 +1,4 @@
-package udacity.com.bakingtime;
+package udacity.com.bakingtime.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -11,8 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import udacity.com.bakingtime.model.Ingredient;
-import udacity.com.bakingtime.model.Recipe;
+import udacity.com.bakingtime.R;
 
 /**
  * Created by Laci on 15/04/2018.

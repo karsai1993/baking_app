@@ -67,7 +67,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return stepList.get(stepList.size() - 1).getId();
     }
 
-    class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView recipeName;
         TextView recipeIngredientNum;

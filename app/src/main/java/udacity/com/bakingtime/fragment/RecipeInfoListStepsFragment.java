@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -25,11 +28,14 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.audio.AudioRendererEventListener;
+import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -45,6 +51,7 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.R;
@@ -57,7 +64,9 @@ import udacity.com.bakingtime.utils.NetworkUtils;
  * https://github.com/GeoffLedak/ExoplayerFullscreen
  */
 
-public class RecipeInfoListStepsFragment extends Fragment {
+public class RecipeInfoListStepsFragment extends Fragment
+        implements
+        Player.EventListener {
 
     public RecipeInfoListStepsFragment() {}
 
@@ -77,10 +86,12 @@ public class RecipeInfoListStepsFragment extends Fragment {
     private long mResumePosition;
     private View mView;
     private TextView mNetworkErrorTextView;
+    private boolean mIsPlayWhenReady;
 
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
+    private static final String STATE_PLAYER_WHEN_READY = "playerWhenReady";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +101,7 @@ public class RecipeInfoListStepsFragment extends Fragment {
             mResumeWindow = savedInstanceState.getInt(STATE_RESUME_WINDOW);
             mResumePosition = savedInstanceState.getLong(STATE_RESUME_POSITION);
             mExoPlayerFullscreen = savedInstanceState.getBoolean(STATE_PLAYER_FULLSCREEN);
+            mIsPlayWhenReady = savedInstanceState.getBoolean(STATE_PLAYER_WHEN_READY);
         }
     }
 
@@ -101,6 +113,7 @@ public class RecipeInfoListStepsFragment extends Fragment {
                 container,
                 false
         );
+        populateUI();
         return mView;
     }
 
@@ -110,6 +123,7 @@ public class RecipeInfoListStepsFragment extends Fragment {
         outState.putInt(STATE_RESUME_WINDOW, mResumeWindow);
         outState.putLong(STATE_RESUME_POSITION, mResumePosition);
         outState.putBoolean(STATE_PLAYER_FULLSCREEN, mExoPlayerFullscreen);
+        outState.putBoolean(STATE_PLAYER_WHEN_READY, mIsPlayWhenReady);
 
         super.onSaveInstanceState(outState);
     }
@@ -196,77 +210,19 @@ public class RecipeInfoListStepsFragment extends Fragment {
         );
         mExoPlayerView.setPlayer(mExoPlayer);
 
-        mExoPlayer.addListener(new Player.EventListener() {
-            @Override
-            public void onTimelineChanged(Timeline timeline, Object manifest) {
-
-            }
-
-            @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-            }
-
-            @Override
-            public void onLoadingChanged(boolean isLoading) {
-
-            }
-
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                if ((playbackState == Player.STATE_READY) && playWhenReady) {
-                    mStateBuilder.setState(
-                            PlaybackStateCompat.STATE_PLAYING,
-                            mExoPlayer.getCurrentPosition(),
-                            1f
-                    );
-                } else if ((playbackState == Player.STATE_READY)) {
-                    mStateBuilder.setState(
-                            PlaybackStateCompat.STATE_PAUSED,
-                            mExoPlayer.getCurrentPosition(),
-                            1f
-                    );
-                }
-                mMediaSession.setPlaybackState(mStateBuilder.build());
-            }
-
-            @Override
-            public void onRepeatModeChanged(int repeatMode) {
-
-            }
-
-            @Override
-            public void onPlayerError(ExoPlaybackException error) {
-
-            }
-
-            @Override
-            public void onPositionDiscontinuity() {
-
-            }
-
-            @Override
-            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
-            }
-        });
+        mExoPlayer.addListener(this);
 
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
 
         if (haveResumePosition) {
-            mExoPlayerView.getPlayer().seekTo(mResumeWindow, mResumePosition);
+            mExoPlayer.seekTo(mResumeWindow, mResumePosition);
         }
 
-        mExoPlayerView.getPlayer().prepare(mMediaSource);
-        mExoPlayerView.getPlayer().setPlayWhenReady(true);
+        if (mMediaSource!= null) mExoPlayer.prepare(mMediaSource);
+        mExoPlayer.setPlayWhenReady(mIsPlayWhenReady);
     }
 
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-
+    private void populateUI() {
         if (mExoPlayerView == null) {
 
             mExoPlayerView = mView.findViewById(R.id.exoplayer);
@@ -331,12 +287,8 @@ public class RecipeInfoListStepsFragment extends Fragment {
             } else if ((mExoPlayerView.getVisibility() == View.VISIBLE) && isNetworkAvailable) {
                 mExoPlayerView.setVisibility(View.VISIBLE);
                 mNetworkErrorTextView.setVisibility(View.GONE);
-            } else {
-
             }
         }
-
-        initExoPlayer();
 
         if (mExoPlayerFullscreen) {
             ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
@@ -357,6 +309,18 @@ public class RecipeInfoListStepsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) initExoPlayer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M || mExoPlayer == null) initExoPlayer();
+    }
+
 
     @Override
     public void onPause() {
@@ -366,10 +330,19 @@ public class RecipeInfoListStepsFragment extends Fragment {
         if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
             mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
             mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
+            mIsPlayWhenReady = mExoPlayer.getPlayWhenReady();
         }
 
         if (mFullScreenDialog != null)
             mFullScreenDialog.dismiss();
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) releasePlayer();
     }
 
     private void initializeMediaSession() {
@@ -396,6 +369,7 @@ public class RecipeInfoListStepsFragment extends Fragment {
     private void releasePlayer() {
         if (mExoPlayer != null) {
             mExoPlayer.stop();
+            mExoPlayer.removeListener(this);
             mExoPlayer.release();
             mExoPlayer = null;
         }
@@ -403,9 +377,56 @@ public class RecipeInfoListStepsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+    }
+
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        if ((playbackState == Player.STATE_READY) && playWhenReady) {
+            mStateBuilder.setState(
+                    PlaybackStateCompat.STATE_PLAYING,
+                    mExoPlayer.getCurrentPosition(),
+                    1f
+            );
+        } else if ((playbackState == Player.STATE_READY)) {
+            mStateBuilder.setState(
+                    PlaybackStateCompat.STATE_PAUSED,
+                    mExoPlayer.getCurrentPosition(),
+                    1f
+            );
+        }
+        mMediaSession.setPlaybackState(mStateBuilder.build());
+    }
+
+    @Override
+    public void onRepeatModeChanged(int repeatMode) {
+
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+
+    }
+
+    @Override
+    public void onPositionDiscontinuity() {
+
+    }
+
+    @Override
+    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
     }
 
     private class MediaSessionCallback extends MediaSessionCompat.Callback {

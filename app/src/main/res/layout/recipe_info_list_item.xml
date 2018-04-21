@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_recipe_info_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/ll_recipe_info_list_item"
     android:layout_margin="@dimen/distance"
-    android:orientation="vertical"
     android:background="@drawable/recipe_info_list_item_background">
 
-    <TextView
-        style="@style/AppTheme"
-        android:id="@+id/tv_recipe_info_list_item_number"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/distance"
-        android:textStyle="bold"
-        android:gravity="center" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/AppTheme"
+            android:id="@+id/tv_recipe_info_list_item_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/distance"
+            android:textStyle="bold"
+            android:gravity="center" />
 
 
-    <TextView
-        android:id="@+id/tv_recipe_info_list_item_name"
-        style="@style/AppTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/distance"
-        android:gravity="center"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_recipe_info_list_item_name"
+            style="@style/AppTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/distance"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_recipe_info_list_item_video_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/small_distance"
+        android:src="@drawable/ic_icons8_video_96" />
 
 </LinearLayout>

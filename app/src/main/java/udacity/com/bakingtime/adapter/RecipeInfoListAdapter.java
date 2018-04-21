@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,6 +77,7 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
         if (position == 0) {
             holder.recipeInfoListItemName.setText(ApplicationHelper.INGREDIENTS_NAME);
             holder.recipeInfoListItemNumber.setVisibility(View.GONE);
+            holder.recipeInfoListItemVideoIcon.setVisibility(View.GONE);
         } else {
             Step step = mRecipe.getStepList().get(position - 1);
             holder.recipeInfoListItemName.setText(step.getShortDescription());
@@ -87,6 +89,13 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
                 holder.recipeInfoListItemNumber.setText(
                         mContext.getResources().getString(R.string.hashtag) + String.valueOf(stepId)
                 );
+            }
+            String stepThumbnailUrl = step.getThumbnailUrl();
+            String stepVideoUrl = step.getVideoUrl();
+            if (!stepThumbnailUrl.isEmpty() || !stepVideoUrl.isEmpty()) {
+                holder.recipeInfoListItemVideoIcon.setVisibility(View.VISIBLE);
+            } else {
+                holder.recipeInfoListItemVideoIcon.setVisibility(View.GONE);
             }
         }
         if (mIsComingFromWidget) {
@@ -133,12 +142,15 @@ public class RecipeInfoListAdapter extends RecyclerView.Adapter<RecipeInfoListAd
 
         TextView recipeInfoListItemName;
         TextView recipeInfoListItemNumber;
+        ImageView recipeInfoListItemVideoIcon;
         LinearLayout recipeInfoListItemLinearLayout;
 
         public RecipeInfoListViewHolder(View itemView) {
             super(itemView);
             recipeInfoListItemName = itemView.findViewById(R.id.tv_recipe_info_list_item_name);
             recipeInfoListItemNumber = itemView.findViewById(R.id.tv_recipe_info_list_item_number);
+            recipeInfoListItemVideoIcon = itemView
+                    .findViewById(R.id.iv_recipe_info_list_item_video_icon);
             recipeInfoListItemLinearLayout = itemView.findViewById(R.id.ll_recipe_info_list_item);
             itemView.setOnClickListener(this);
         }

@@ -52,6 +52,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.squareup.picasso.Picasso;
 
 import udacity.com.bakingtime.ApplicationHelper;
 import udacity.com.bakingtime.R;
@@ -87,6 +88,7 @@ public class RecipeInfoListStepsFragment extends Fragment
     private View mView;
     private TextView mNetworkErrorTextView;
     private boolean mIsPlayWhenReady;
+    private ImageView mStepThumbnailImageView;
 
     private final String STATE_RESUME_WINDOW = "resumeWindow";
     private final String STATE_RESUME_POSITION = "resumePosition";
@@ -226,6 +228,7 @@ public class RecipeInfoListStepsFragment extends Fragment
         if (mExoPlayerView == null) {
 
             mExoPlayerView = mView.findViewById(R.id.exoplayer);
+            mStepThumbnailImageView = mView.findViewById(R.id.iv_step_thumbnail);
 
             Bundle receivedStepsBundle = getArguments();
 
@@ -251,11 +254,20 @@ public class RecipeInfoListStepsFragment extends Fragment
             Uri uri = null;
             if (videoUrl.isEmpty() && thumbnailUrl.isEmpty()) {
                 mExoPlayerView.setVisibility(View.GONE);
+                mStepThumbnailImageView.setVisibility(View.GONE);
             } else {
-                mExoPlayerView.setVisibility(View.VISIBLE);
                 if (videoUrl.isEmpty()) {
+                    mExoPlayerView.setVisibility(View.GONE);
+                    mStepThumbnailImageView.setVisibility(View.VISIBLE);
                     uri = Uri.parse(thumbnailUrl);
+                    Picasso.with(getContext())
+                            .load(uri)
+                            .placeholder(R.drawable.ic_icons8_load_96)
+                            .error(R.drawable.ic_icons8_error_96)
+                            .into(mStepThumbnailImageView);
                 } else {
+                    mExoPlayerView.setVisibility(View.VISIBLE);
+                    mStepThumbnailImageView.setVisibility(View.GONE);
                     uri = Uri.parse(videoUrl);
                 }
             }
@@ -278,14 +290,21 @@ public class RecipeInfoListStepsFragment extends Fragment
 
             mNetworkErrorTextView = mView.findViewById(R.id.tv_exopayer_network_error);
             boolean isNetworkAvailable = NetworkUtils.isNetworkAvailable(getContext());
-            if ((mExoPlayerView.getVisibility() == View.VISIBLE) && !isNetworkAvailable) {
+            if ((mExoPlayerView.getVisibility() == View.VISIBLE
+                    || mStepThumbnailImageView.getVisibility() == View.VISIBLE)
+                    && !isNetworkAvailable) {
                 mExoPlayerView.setVisibility(View.GONE);
+                mStepThumbnailImageView.setVisibility(View.GONE);
                 mNetworkErrorTextView.setVisibility(View.VISIBLE);
-            } else if ((mExoPlayerView.getVisibility() == View.GONE) || !isNetworkAvailable) {
+            } else if ((mExoPlayerView.getVisibility() == View.GONE
+                    && mStepThumbnailImageView.getVisibility() == View.GONE)
+                    || !isNetworkAvailable) {
                 mExoPlayerView.setVisibility(View.GONE);
+                mStepThumbnailImageView.setVisibility(View.GONE);
                 mNetworkErrorTextView.setVisibility(View.GONE);
-            } else if ((mExoPlayerView.getVisibility() == View.VISIBLE) && isNetworkAvailable) {
-                mExoPlayerView.setVisibility(View.VISIBLE);
+            } else if ((mExoPlayerView.getVisibility() == View.VISIBLE
+                    || mStepThumbnailImageView.getVisibility() == View.VISIBLE)
+                    && isNetworkAvailable) {
                 mNetworkErrorTextView.setVisibility(View.GONE);
             }
         }

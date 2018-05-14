@@ -7,6 +7,15 @@ The data are shown in RecyclerViews, and they are placed in fragments to make di
 There are videos which are played by ExoPlayer.
 Besides the app, there is a home screen widget available for the user. As it is able to be configures based on the user's demand. She/he can choose the desired recipe for each widget. By clicking to the widget displaying its ingredient list, the app gets opened at the appropriate list of ingredients.
 
+## What Will I Learn?
+In this project you will:
+
+- Use MediaPlayer/Exoplayer to display videos.
+- Handle error cases in Android.
+- Add a widget to your app experience.
+- Leverage a third-party library in your app.
+- Use Fragments to create a responsive design that works on phones and tablets.
+
 ## How to install?
 
 - Clone/download the project
